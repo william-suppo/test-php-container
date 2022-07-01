@@ -26,6 +26,9 @@ COPY vhost.conf /etc/apache2/sites-available/000-default.conf
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip curl intl
 
+# Enable Apache mods
+RUN a2enmod rewrite
+
 # Clean cache
 RUN apt-get -y autoremove \
 	&& apt-get clean \
@@ -33,4 +36,3 @@ RUN apt-get -y autoremove \
 
 # Copy source code
 COPY . /var/www
-
